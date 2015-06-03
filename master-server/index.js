@@ -1,15 +1,25 @@
 var io = require('socket.io-client');
 var sa = require('superagent');
-
+var open = require("open");
+/*
+TODO: This needs to be set to the actual url
+*/
 var stdms = "localhost:8123";
 var big_brother_url = "http://stuStatic:pass@localhost:8123";
 
 var io;
 
+var t = setTimeout(function(){
+  open("http://"+stdms);
+},10000);
+
 //The purpose for this is generally to make sure any calls have auth headers
 module.exports.authorize = function(token){
+  clearTimeout(t);
   console.log(token);
+  if(token.hostname) stdms = token.hostname;
   big_brother_url = "http://"+token.user+":"+token.token+"@"+stdms;
+  process.stdout.write("ready");
 };
 
 module.exports.initialize = function(){

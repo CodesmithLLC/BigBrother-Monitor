@@ -43,7 +43,10 @@ function createStudentPortalListener(next){
 		MASTER_SERVER.authorize(req.body);
 		res.status(200).end();
 	});
-
+	STUDENT_PORTAL_LISTENER.use(function(err,req,res,next){
+		if(err) console.error(err);
+		next();
+	});
 	STUDENT_PORTAL_LISTENER.listen(8001);
 }
 

@@ -3,7 +3,8 @@
 var fs = require('fs'),
 	program = require('commander'),
 	spawn = require('child_process').spawn,
-	pidStore = __dirname+"/pid";
+	pidStore = __dirname+"/pid",
+	open = require("open");
 
 if(!fs.existsSync(__dirname+"/debug")){
 	fs.mkdirSync(__dirname+"/debug");
@@ -47,7 +48,6 @@ program
 		uid:process.getuid(),
 	});
 	fs.writeFileSync(pidStore, child.pid.toString());
-
 	child.unref();
 	fs.createReadStream(__dirname+"/assets/illuminati.txt")
 	.on("end",function(){
