@@ -1,6 +1,7 @@
 var io = require('socket.io-client');
 var sa = require('superagent');
 var open = require("open");
+var url = require("url");
 /*
 TODO: This needs to be set to the actual url
 */
@@ -17,7 +18,7 @@ var t = setTimeout(function(){
 module.exports.authorize = function(token){
   clearTimeout(t);
   console.log(token);
-  if(token.hostname) stdms = token.hostname;
+  if(token.href) stdms = url.parse(token.href).host;
   big_brother_url = "http://"+token.user+":"+token.token+"@"+stdms;
   process.stdout.write("ready");
 };
