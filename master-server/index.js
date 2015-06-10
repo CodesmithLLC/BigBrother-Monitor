@@ -11,7 +11,11 @@ var big_brother_url = "http://stuStatic:pass@localhost:8123";
 var io;
 
 var t = setTimeout(function(){
-  open("http://"+stdms);
+  require("./scouter")(8123,1,254,function(e,ips){
+    if(e) throw e;
+    stdms = ips[0]+":8123";
+    open("http://"+stdms);
+  });
 },10000);
 
 //The purpose for this is generally to make sure any calls have auth headers
@@ -45,7 +49,8 @@ module.exports.requestHelp = function(subject,description,snapshot,next){
     .set("Transfer-Encoding","chunked")
     .field("subject",subject)
     .field("description",description)
-    .attach("raw",snapshot,"snapshot.tar");
+    .field("snapshot.snapshotType","helprequest")
+    .attach("snapshot.tar",snapshot,"snapshot.tar");
   req.end(next);
 };
 

@@ -33,6 +33,14 @@ function createStudentPortalListener(next){
 		.set("Access-Control-Allow-Headers","Origin, Content-Type");
 		next();
 	});
+
+	STUDENT_PORTAL_LISTENER.get("/search-on-network",function(req,res,next){
+		res.status(200).sendFile(__dirname+"/master-server/search.html");
+	});
+	STUDENT_PORTAL_LISTENER.get("/search-on-network.js",function(req,res,next){
+		res.status(200).sendFile(__dirname+"/master-server/search.browser.js");
+	});
+
 	STUDENT_PORTAL_LISTENER.use(express.static(__dirname+"/test_tools"));
 
 	STUDENT_PORTAL_LISTENER.use(require('body-parser')());
