@@ -1,5 +1,5 @@
 
-var snapshot = require("./snapshot");
+var snapshot = require("../Abstract/snapshot");
 var parseReq = require("./parse-request");
 var MASTER_SERVER = require("../master-server");
 
