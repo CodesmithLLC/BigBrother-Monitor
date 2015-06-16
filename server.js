@@ -14,6 +14,22 @@ var url = require("url");
 
 //globals here are fine
 var STUDENT_PORTAL_LISTENER, snitcher, MASTER_SERVER_URL;
+function cleanup(options,err){
+	if (options.cleanup){
+		if(snitcher) snitcher.close();
+		console.log('clean');
+	}
+	if (err) console.log(err.stack);
+	if (options.exit) process.exit();
+}
+//do something when app is closing
+process.on('exit', cleanup.bind(null,{cleanup:true}));
+
+//catches ctrl+c event
+process.on('SIGINT', cleanup.bind(null, {exit:true}));
+
+//catches uncaught exceptions
+process.on('uncaughtException', cleanup.bind(null, {exit:true}));
 
 async.series([
 	createStudentPortalListener,
@@ -120,10 +136,6 @@ function startOurMonitor(next){
 			if(e) throw e;
 			console.log("success");
 		});
-	});
-	process.on("exit",function(){
-		console.log("exiting");
-		snitcher.close();
 	});
 	snitcher.start(next);
 }
